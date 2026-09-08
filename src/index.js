@@ -66,21 +66,25 @@ const Header = () => {
 };
 
 const Menu = () => {
+  const pizzas = pizzaData;
+
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza
-        name="Pizza Spinaci"
-        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
-        photoName="pizzas/spinaci.jpg"
-        price={10}
-      />
-      <Pizza
-        name="Pizza Prosciutto"
-        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
-        photoName="pizzas/prosciutto.jpg"
-        price={18}
-      />
+
+      {pizzas && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza
+              name={pizza.name}
+              ingredients={pizza.ingredients}
+              photoName={pizza.photoName}
+              price={pizza.price}
+              key={pizza.name}
+            />
+          ))}
+        </ul>
+      )}
     </main>
   );
 };
@@ -90,14 +94,14 @@ function Pizza({ name, ingredients, photoName, price }) {
   // console.log("props", props);
 
   return (
-    <div className="pizza">
+    <li className="pizza">
       <img src={photoName} alt={name} />
       <div>
         <h3>{name}</h3>
         <p>{ingredients}</p>
-        <span>{price}</span>
+        <span>${price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -106,11 +110,21 @@ const Footer = () => {
   const openHour = 8;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(isOpen);
 
   // return React.createElement("footer", null, "We're currently open.");
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()} We're currently open.
+      {isOpen && (
+        <div className="order">
+          <p>
+            {new Date().toLocaleTimeString()}. We're currently open. Come visit
+            us or order.
+          </p>
+
+          <button className="btn">Order</button>
+        </div>
+      )}
     </footer>
   );
 };
